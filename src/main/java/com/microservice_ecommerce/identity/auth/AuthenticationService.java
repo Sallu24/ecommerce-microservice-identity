@@ -65,12 +65,21 @@ public class AuthenticationService {
         }
     }
 
+    public Long validateTokenAndGetUserDetails(String token) {
+        boolean isTokenValid = validateToken(token);
+        if (!isTokenValid) {
+            return 0L;
+        }
+
+        return Long.valueOf(jwtUtils.getUserIdFromJwtToken(token));
+    }
+
     public boolean validateToken(String token) {
         return jwtUtils.validateJwtToken(token);
     }
 
     public String extractToken(String token) {
-        return jwtUtils.getUserNameFromJwtToken(token);
+        return jwtUtils.getUserIdFromJwtToken(token);
     }
 
 }

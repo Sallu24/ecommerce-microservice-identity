@@ -32,7 +32,7 @@ public class JwtUtils {
     private Long jwtExpirationMs;
 
     public String generateJwtToken(User user) {
-        String email = user.getEmail();
+        Long userId = user.getId();
         Instant now = Instant.now();
         Date issuedAt = Date.from(now);
         Date expiration = Date.from(now.plus(jwtExpirationMs, ChronoUnit.MILLIS));
@@ -42,14 +42,14 @@ public class JwtUtils {
 
         return Jwts.builder()
                 .claims(claims)
-                .subject((email))
+                .subject(String.valueOf(userId))
                 .issuedAt(issuedAt)
                 .expiration(expiration)
                 .signWith(key())
                 .compact();
     }
 
-    public String getUserNameFromJwtToken(String token) {
+    public String getUserIdFromJwtToken(String token) {
         return Jwts.parser()
                 .verifyWith((SecretKey) key())
                 .build()

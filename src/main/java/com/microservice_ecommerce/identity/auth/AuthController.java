@@ -24,14 +24,9 @@ public class AuthController {
         return authenticationService.login(customerLoginDTO);
     }
 
-    @GetMapping("/validate")
-    public Boolean validateToken(@RequestParam("token") String token) {
-        return authenticationService.validateToken(token);
-    }
-
-    @PostMapping("/extract")
-    public String extractToken(@RequestParam("token") String token) {
-        return authenticationService.extractToken(token);
+    @PostMapping("/validate")
+    public Long validateTokenAndGetUserDetails(@RequestParam("token") String token) {
+        return authenticationService.validateTokenAndGetUserDetails(token);
     }
 
 }
