@@ -68,7 +68,7 @@ public class AuthenticationService {
     public Long validateTokenAndGetUserDetails(String token) {
         boolean isTokenValid = validateToken(token);
         if (!isTokenValid) {
-            return 0L;
+            throw new JWTNotValidatedException("jwt is invalid");
         }
 
         return Long.valueOf(jwtUtils.getUserIdFromJwtToken(token));
@@ -76,10 +76,6 @@ public class AuthenticationService {
 
     public boolean validateToken(String token) {
         return jwtUtils.validateJwtToken(token);
-    }
-
-    public String extractToken(String token) {
-        return jwtUtils.getUserIdFromJwtToken(token);
     }
 
 }

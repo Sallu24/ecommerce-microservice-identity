@@ -1,6 +1,7 @@
 package com.microservice_ecommerce.identity.exception;
 
 import com.microservice_ecommerce.identity.auth.CredentialsMismatchException;
+import com.microservice_ecommerce.identity.auth.JWTNotValidatedException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -30,6 +31,14 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
 
     @ExceptionHandler(CredentialsMismatchException.class)
     public final ResponseEntity<ErrorDetails> handleCredentialsMismatchException(Exception ex, WebRequest request) throws Exception {
+        ErrorDetails errorDetails = new ErrorDetails(LocalDateTime.now(), ex.getMessage(),
+                request.getDescription(false));
+
+        return new ResponseEntity<ErrorDetails>(errorDetails, HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(JWTNotValidatedException.class)
+    public final ResponseEntity<ErrorDetails> handleJWTNotValidatedException(Exception ex, WebRequest request) throws Exception {
         ErrorDetails errorDetails = new ErrorDetails(LocalDateTime.now(), ex.getMessage(),
                 request.getDescription(false));
 
