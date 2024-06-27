@@ -72,10 +72,13 @@ public class JwtUtils {
             return true;
         } catch (MalformedJwtException exception) {
             logger.error("Invalid JWT token: {}", exception.getMessage());
+            throw new JwtInvalidException("Invalid JWT token");
         } catch (ExpiredJwtException exception) {
             logger.error("JWT token is expired: {}", exception.getMessage());
+            throw new JwtExpiredException("JWT token is expired");
         } catch (UnsupportedJwtException exception) {
             logger.error("JWT token is unsupported: {}", exception.getMessage());
+            throw new JwtUnsupportedException("WT token is unsupported");
         } catch (IllegalArgumentException exception) {
             logger.error("JWT claims string is empty: {}", exception.getMessage());
         }
